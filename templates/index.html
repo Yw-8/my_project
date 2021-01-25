@@ -35,7 +35,7 @@
             }
 
             .comment {
-                color: blue;
+                color: mediumspringgreen;
                 font-weight: bold;
             }
 
@@ -49,11 +49,9 @@
         </style>
         <script>
 
-
-
             $(document).ready(function () {
-                $("#cards-box").html("");
-                showArticles();
+
+                showStar();
             });
 
             function openClose() {
@@ -71,57 +69,38 @@
                 }
             }
 
-            function postArticle() {
-                //1. 유저가 입력한 데이터를 #post-url로 가져오기
-                let url = $("#post-url").val();
+            function showStar() {
+                $('#star-box').empty()
 
-                //2. memo에 POST 방식으로 메모 생성 요청하기
                 $.ajax({
-                    type: "POST",
-                    url: "/memo",
-                    data: {url_give : url},
-                    success: function (response) { // 성공하면
-                        if (response["result"] == "success") {
-                            alert("지하철 도착시간 확인 중");
+                    type: "GET",
+                    url: "/api/list",
+                    data: {},
+                    success: function (response) {
+                        let stars = response['realTimeArrivalList']
 
-                            //3. 페이지 새로고침
-                            window.location.reload()
-                        } else {
-                            alert("에러")
+                        for(let i = 0; i < stars.length; i++) {
+                            let stars = stars[i]['bstatnNm']
+                            let name = stars['bstatnNm']
+                            let time = stars['recptnDt']
+                            console.log(stars)
+                            makeCard(stars[i]['bstatnNM'], stars[i]['recptnDt']);
                         }
                     }
                 })
             }
 
-            function showSubway() {
-                $.ajax({
-                    type: "GET",
-                    url: "http://swopenAPI.seoul.go.kr/api/subway/41787955437178773839477943464e/json/realtimeStationArrival/0/5/서울",
-                    data: {},
-                    success: function (response) {
-                        console.log(response)
+            function makeCard(name, time) {
+                let tempHtml = `<div class="card">
+                        <img class="card-img-top" src="" alt="Card image cap">
+                        <div class="card-body">
 
-                    }
-                })
-            }
+                        <p class="card-text">${name}</p>
+                        <p class="card-text comment">${time}</p>
+                        </div>
+                    </div>`;
+                $("#cards-box").append(tempHtml);
 
-            function showArticles() {
-                $.ajax({
-                    type: "GET",
-                    url: "/memo",
-                    data: {},
-                    success: function (response) {
-                        let station = reponse["articles"];
-                        //makeCard(station[""])
-
-                    }
-                })
-            }
-
-
-
-            function makeCard(url, title, desc, comment, image) {
-            //let temp_html 작성
             }
         </script>
 
@@ -151,6 +130,8 @@
                     <button type="button" class="btn btn-primary" onclick="postArticle()">검색</button>
                 </div>
             </div>
+
+
             <div id="cards-box" class="card-columns">
                 <div class="card">
                     <img class="card-img-top"
