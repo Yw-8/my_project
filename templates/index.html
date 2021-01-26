@@ -80,11 +80,11 @@
                         let stars = response['realTimeArrivalList']
 
                         for(let i = 0; i < stars.length; i++) {
-                            let stars = stars[i]['bstatnNm']
-                            let name = stars['bstatnNm']
-                            let time = stars['recptnDt']
-                            console.log(stars)
-                            makeCard(stars[i]['bstatnNM'], stars[i]['recptnDt']);
+                            let stars1 = stars[i];
+                            let name = stars1['bstatnNm']
+                            let time = stars1['recptnDt']
+                            console.log(name, time);
+                            makeCard(stars[i]['bstatnNm'], stars[i]['recptnDt']);
                         }
                     }
                 })

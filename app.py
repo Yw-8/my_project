@@ -8,7 +8,7 @@ from pymongo import MongoClient  # pymongo를 임포트 하기(패키지 인스�
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
-db = client.dbsubway3  # 'dbsubway'라는 이름의 db를 만들거나 사용합니다.
+db = client.dbsubway5  # 'dbsubway5'라는 이름의 db를 만들거나 사용합니다.
 
 
 
@@ -22,9 +22,9 @@ def home():
 @app.route('/api/list', methods=['GET'])
 def show_stars():
     # 1. db에서 subway 목록 전체를 검색
-    stars = list(db.dbsubway5.find({},{'_id': False}))
+    stars = list(db.dbsubway5.find({}))
 
-    return jsonify({'result': 'success', 'realtimeArrivalList': stars})
+    return jsonify({'result': 'success', 'realTimeArrivalList': stars})
 
 @app.route('/api/delete', methods=['POST'])
 def delete_star():
