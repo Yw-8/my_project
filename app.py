@@ -22,7 +22,7 @@ def home():
 @app.route('/api/list', methods=['GET'])
 def show_stars():
     # 1. db에서 subway 목록 전체를 검색
-    stars = list(db.dbsubway5.find({}))
+    stars = list(db.dbsubway5.find({}, {'_id': 0}))
 
     return jsonify({'result': 'success', 'realTimeArrivalList': stars})
 

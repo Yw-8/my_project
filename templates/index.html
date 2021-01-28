@@ -77,26 +77,38 @@
                     url: "/api/list",
                     data: {},
                     success: function (response) {
-                        let stars = response['realTimeArrivalList']
+                        let stars = response['realTimeArrivalList'];
 
                         for(let i = 0; i < stars.length; i++) {
                             let stars1 = stars[i];
-                            let name = stars1['bstatnNm']
-                            let time = stars1['recptnDt']
-                            console.log(name, time);
+                            console.log(stars1)  //OK
+
+                            let test = stars1['realtimeArrivalList'];
+                            let name = stars1 ['bstatnNm'];
+                            let time = stars1['realtimeArrivalList']['subwayHeading'];
+                            let test2 = stars1['ordkey'];
+
+                            console.log(test)  //OK - realtimeArrivalList
+                            console.log(name)  //NG - undefined (bstatnNM 값을 받으려함)
+                            console.log(time)  //NG - undefined (recptnDt 값을 받으려함)
+                            console.log(test2) //NG - undefined (bstatnNM 값을 받으려함)
+
                             makeCard(stars[i]['bstatnNm'], stars[i]['recptnDt']);
                         }
                     }
                 })
             }
 
-            function makeCard(name, time) {
+            function makeCard(bstatnNm, recptnDt) {
+
+
+
                 let tempHtml = `<div class="card">
                         <img class="card-img-top" src="" alt="Card image cap">
                         <div class="card-body">
 
-                        <p class="card-text">${name}</p>
-                        <p class="card-text comment">${time}</p>
+                        <p class="card-text">${bstatnNm}</p>
+                        <p class="card-text comment">${recptnDt}</p>
                         </div>
                     </div>`;
                 $("#cards-box").append(tempHtml);
